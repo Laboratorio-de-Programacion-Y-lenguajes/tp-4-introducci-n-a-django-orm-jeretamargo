@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from django.db.models import Count, Q
+from django.db.models import Count, Q, QuerySet
 
 from .models import Autor, Libro
 
 
-def libros_por_categoria(nombre_categoria: str):
+def libros_por_categoria(nombre_categoria: str) -> QuerySet[Libro] :
     """
     Devuelve un QuerySet de Libros que pertenecen a la categoría indicada.
 
@@ -28,7 +28,7 @@ def libros_por_categoria(nombre_categoria: str):
     raise NotImplementedError
 
 
-def autores_con_mas_de_n_libros(n: int):
+def autores_con_mas_de_n_libros(n: int) -> QuerySet[Autor]:
     """
     Devuelve un QuerySet de Autores que tienen más de n libros en el catálogo.
 
@@ -47,6 +47,7 @@ def autores_con_mas_de_n_libros(n: int):
     #   Autor.objects.annotate(cantidad_libros=Count("libro"))
     # Pista 2: luego filtrá
     #   .filter(cantidad_libros__gt=n)
+    return Autor.objects.annotate(cantidad_libros=Count("libro")).filter(cantidad_libros__gt=n)
     raise NotImplementedError
 
 
