@@ -76,7 +76,7 @@ def libros_sin_disponibilidad() -> QuerySet[Libro] :
     raise NotImplementedError
 
 
-def top_n_libros_mas_prestados(n: int):
+def top_n_libros_mas_prestados(n: int) -> QuerySet[Libro]:
     """
     Devuelve los N libros con más préstamos (en total, sin importar si están activos).
 
@@ -91,4 +91,5 @@ def top_n_libros_mas_prestados(n: int):
                      .order_by("-total_prestamos")[:n]
     """
     # TODO: implementar con annotate + order_by + slicing
+    return Libro.objects.annotate(total_prestamos=Count("prestamo")).order_by("-total_prestamos")[:n]
     raise NotImplementedError
