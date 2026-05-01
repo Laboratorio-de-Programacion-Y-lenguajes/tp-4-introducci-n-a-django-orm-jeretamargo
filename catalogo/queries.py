@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from django.db import models
 from django.db.models import Count, Q, QuerySet
 
 from .models import Autor, Libro
@@ -51,7 +52,7 @@ def autores_con_mas_de_n_libros(n: int) -> QuerySet[Autor]:
     raise NotImplementedError
 
 
-def libros_sin_disponibilidad():
+def libros_sin_disponibilidad() -> QuerySet[Libro] :
     """
     Devuelve un QuerySet de Libros donde no hay copias disponibles.
     (prestamos_activos == cantidad_total)
@@ -68,6 +69,10 @@ def libros_sin_disponibilidad():
         ).filter(activos=models.F("cantidad_total"))
     """
     # TODO: implementar con annotate + F expression + filter
+    return Libro.objects.annotate(
+            activos=Count("prestamo", filter=Q(prestamo__fecha_devolucion__isnull=True))
+        ).filter(activos=models.F("cantidad_total"))
+
     raise NotImplementedError
 
 
