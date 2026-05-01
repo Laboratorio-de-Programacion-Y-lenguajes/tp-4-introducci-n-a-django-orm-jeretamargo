@@ -37,12 +37,12 @@ class Categoria(models.Model):
 
     # TODO: implementar el campo nombre (unique=True)
 
-    categoria = models.CharField(max_length=45, unique=True)
+    nombre = models.CharField(max_length=45, unique=True)
 
     pass
 
     def __str__(self) -> str:
-        return self.categoria
+        return self.nombre
 
 
 class Libro(models.Model):
